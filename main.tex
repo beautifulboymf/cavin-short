@@ -46,7 +46,7 @@
 \keywords{uplift modeling, individual treatment effect, graph neural networks, positional encoding, heteroscedasticity, causal inference}
 
 \begin{abstract}
-In graph-based uplift modeling, a node's structural position is an unobserved confounder that simultaneously drives treatment assignment bias and outcome noise heteroscedasticity---two error sources from the same root. We formalize this \emph{dual-root structure} through a PEHE decomposition and propose two plug-in corrections: \textbf{Graph Positional Encoding (GPE)} injects node2vec embeddings as a proxy confounder adjustment (bias reduction), while \textbf{Variance-Weighted Learning} downweights noisy samples (variance reduction). Neither module modifies the base model's architecture, making both applicable to any existing graph ITE estimator. Across four base models spanning 2016--2025, GPE reduces PEHE in 87\% of separate-head settings; combining both modules reduces the current SOTA's error by up to 29\% at high noise, confirming their complementarity. Code: \url{https://anonymous.4open.science/r/CAVIN}.
+In graph-based uplift modeling, a node's structural position is an unobserved confounder that simultaneously drives treatment assignment bias and outcome noise heteroscedasticity---two error sources from the same root. We formalize this \emph{dual-root structure} through a PEHE decomposition and propose two plug-in corrections: \textbf{Graph Positional Encoding (GPE)} injects node2vec embeddings as a proxy confounder adjustment (bias reduction), while \textbf{Variance-Weighted Learning} downweights noisy samples (variance reduction). Neither module modifies the base model's architecture, making both applicable to any existing graph ITE estimator. Across four base models spanning 2016--2025, GPE reduces PEHE in 87\% of separate-head settings; combining both modules reduces the current SOTA's error by up to 29\% at noise level $\rho{=}30$, confirming their complementarity. Code: \url{https://anonymous.4open.science/r/CAVIN}.
 \end{abstract}
 
 \maketitle
@@ -61,7 +61,7 @@ We argue that these methods all grapple with the same unrecognized root cause. A
 
 We propose two lightweight, complementary plug-in modules. \textbf{Graph Positional Encoding (GPE)} fuses node2vec embeddings with node features via cross-attention, implementing Veitch et al.'s proxy confounder theory~\cite{veitch2019using} to reduce the bias term. \textbf{Variance-Weighted Learning} estimates per-sample noise variance and downweights noisy pseudo-labels, reducing the variance term via Gauss--Markov efficiency~\cite{Aitken_1936}. GPE operates at the \emph{input} level; variance weighting at the \emph{loss} level. Neither modifies the base model's internal architecture.
 
-Across four representative base models and five graph datasets, GPE reduces PEHE in 87\% of separate-head settings. At high noise, the combination reduces GDC's error by up to 29\%---confirming complementarity predicted by the decomposition. The R-learner~\cite{nie2021rlearner} provides theoretical precedent for variance-weighted pseudo-outcome regression; we extend this idea to the graph setting with learned heteroscedastic weights.
+Across four representative base models and five graph datasets, GPE reduces PEHE in 87\% of separate-head settings. At $\rho{=}30$, the combination reduces GDC's error by up to 29\%---confirming complementarity predicted by the decomposition. Variance-weighted pseudo-outcome regression has theoretical precedent in the R-learner~\cite{nie2021rlearner}; we extend it to graph settings with learned heteroscedastic weights.
 
 
 %% ====================================================================
@@ -74,7 +74,7 @@ Let $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ be a graph where each node $i$ ha
 \begin{equation}\label{eq:pehe_decomp}
     \mathrm{PEHE}^2 = \underbrace{\mathbb{E}\!\left[(\hat{\tau}(X) - \bar{\tau}(X))^2\right]}_{\text{bias}^2\;\text{(from confounding)}} + \underbrace{\mathbb{E}\!\left[\mathrm{Var}[\tilde{D} \mid X]\right]}_{\text{variance}\;\text{(from noise)}},
 \end{equation}
-where $\bar{\tau}(X) = \mathbb{E}[\tau \mid X]$. The bias term is inflated when $Z^*$ confounds $T \leftarrow Z^* \to Y$; the variance term when outcome noise $\sigma^2(X, Z^*)$ is position-dependent. Conditioning on a proxy for $Z^*$ reduces bias~\cite{veitch2019using}; inverse-variance weighting reduces the variance component via Gauss--Markov efficiency~\cite{Aitken_1936}. Critically, at high noise GPE alone can be counterproductive---the proxy amplifies position-dependent signal while that same position drives noise---so only the combination addresses both error sources.
+where $\bar{\tau}(X) = \mathbb{E}[\tau \mid X]$. This is a standard bias-variance decomposition of MSE; our contribution is identifying that in graph-based ITE, a single latent variable---network position $Z^*$---feeds \emph{both} terms through distinct causal pathways. The bias term is inflated when $Z^*$ confounds $T \leftarrow Z^* \to Y$; the variance term when outcome noise $\sigma^2(X, Z^*)$ is position-dependent. Conditioning on a proxy for $Z^*$ reduces bias~\cite{veitch2019using}; inverse-variance weighting reduces the variance component via Gauss--Markov efficiency~\cite{Aitken_1936}. Critically, at high noise GPE alone can be counterproductive---the proxy amplifies position-dependent signal while that same position drives noise---so only the combination addresses both error sources.
 
 %% ====================================================================
 \section{Method}\label{sec:method}
@@ -90,7 +90,7 @@ GPE fuses raw node features $h \in \mathbb{R}^{n \times d_h}$ with pre-computed 
     \mathrm{head}_k &= \mathrm{softmax}\!\left(Q_k K_k^\top / \sqrt{d_k}\right) V_k, \label{eq:head}\\
     z &= \mathrm{LN}\!\bigl([h;\; W_o\,\mathrm{Concat}(\mathrm{head}_1,\ldots,\mathrm{head}_H)] + f_{\mathrm{res}}([h;p])\bigr), \label{eq:fuse}
 \end{align}
-where $W_Q, W_K, W_V, W_o$ are learnable projections and $f_{\mathrm{res}}$ is a residual projection. For any base model $M$, the GPE-enhanced version is $M_{\text{+GPE}}(\cdot) = M(\mathrm{GPE}(X, p), \cdot)$. Node2vec embeddings are computed once offline, adding negligible overhead.
+where $W_Q, W_K, W_V, W_o$ are learnable projections and $f_{\mathrm{res}}$ is a residual projection. For any base model $M$, the GPE-enhanced version is $M_{\text{+GPE}}(\cdot) = M(\mathrm{GPE}(X, p), \cdot)$. Node2vec embeddings are computed once offline and reused across training runs.
 
 \subsection{Variance-Weighted Learning}\label{sec:var}
 
@@ -124,7 +124,11 @@ Flickr & 7,575 & 12K & 12,047 \\
 \end{tabular}
 \end{table}
 
-We evaluate on five graph datasets (Table~\ref{tab:datasets}): three citation networks (CoraFull, DBLP, PubMed~\cite{bojchevski2018deep}) with community-aware semi-synthetic outcomes extending Guo et al.'s protocol~\cite{guo2020learning} (Louvain communities, multi-hop spillover, per-node heteroscedastic noise at $\rho \in \{5, 10, 30\}$), plus the standard BlogCatalog and Flickr benchmarks from the WSDM DGP~\cite{guo2020learning}. We test four representative base models: BNN~\cite{johansson2016learning} (S-learner), TARNet~\cite{shalit2017estimating} (T-learner), X-learner~\cite{kunzel2019metalearners}, and GDC~\cite{hu2025gdc} (WSDM~2025 SOTA). All share a 5-layer GAT backbone (dims [256,128,128,128,128], 4 heads). GPE uses 128-dim node2vec embeddings with 4-head cross-attention. Training: Adam ($\text{lr}{=}10^{-3}$), 200 epochs, 5 seeds; metric: rooted PEHE ($\downarrow$). Full results across seven models and additional ablations are at \url{https://anonymous.4open.science/r/CAVIN}.
+\textbf{Datasets.} Five graph datasets (Table~\ref{tab:datasets}): CoraFull, DBLP, and PubMed~\cite{bojchevski2018deep} with community-aware semi-synthetic outcomes extending Guo et al.~\cite{guo2020learning} (Louvain communities, multi-hop spillover, heteroscedastic noise $\rho \in \{5, 10, 30\}$), plus the standard BlogCatalog and Flickr benchmarks~\cite{guo2020learning}.
+
+\textbf{Base models.} BNN~\cite{johansson2016learning} (S-learner), TARNet~\cite{shalit2017estimating} (T-learner), X-learner~\cite{kunzel2019metalearners}, and GDC~\cite{hu2025gdc} (WSDM~2025 SOTA).
+
+\textbf{Configuration.} All models share a 5-layer GAT backbone ([256,128,128,128,128], 4 heads); GPE: 128-dim node2vec, 4-head cross-attention. Adam ($\text{lr}{=}10^{-3}$, weight decay $10^{-4}$), 200 epochs, 5 seeds; metric: rooted PEHE ($\downarrow$). Full results across seven models and ablations: \url{https://anonymous.4open.science/r/CAVIN}.
 
 \subsection{GPE as a Modular Plug-in}
 
