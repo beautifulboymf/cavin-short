@@ -166,7 +166,7 @@ Model & & Cora & DBLP & PubMed & Cora & DBLP & PubMed & Cora & DBLP & PubMed \\
 Table~\ref{tab:var} examines the interaction between GPE and variance weighting on two representative models at $\rho=30$: GDC (SOTA with built-in structural mechanisms) and TARNet (simplest T-learner, no structural mechanism).
 
 \begin{table}[t]
-\caption{Ablation at $\rho=30$ (PEHE $\downarrow$, mean$^{\pm\text{std}}$, 5 seeds). \textbf{Bold} = best per row.}
+\caption{Ablation at $\rho=30$ (PEHE $\downarrow$, mean$^{\pm\text{std}}$, 5 seeds). \textbf{Bold} = best per row. Baseline values differ slightly from Table~\ref{tab:main} due to independent runs with separate random seeds.}
 \label{tab:var}
 \centering
 \footnotesize
@@ -186,7 +186,7 @@ Model & Dataset & Base & +GPE & +Var & +GPE+Var \\
 \end{tabular}
 \end{table}
 
-For GDC, GPE alone \emph{hurts} on CoraFull ($4.64 \to 5.14$) because the positional proxy amplifies noise---but the combination yields the best PEHE on CoraFull and DBLP (up to 20\% reduction). On PubMed, variance weighting alone achieves a 29\% reduction, suggesting that when heteroscedasticity dominates confounding, noise suppression is the primary driver. TARNet shows the same complementarity pattern on DBLP ($6.78 \to 5.56$, $-18\%$ with the combination), though on CoraFull variance weighting alone edges ahead. The optimal configuration is model- and dataset-dependent, but the combination is never far from the best single module and often dominates---consistent with the dual-root prediction. On real-world tabular benchmarks, variance weighting yields a 4$\times$ Qini improvement on continuous outcomes (Hillstrom spend; full results in supplementary).
+For GDC, GPE alone \emph{hurts} on CoraFull ($4.64 \to 5.14$) because the positional proxy amplifies noise---but the combination yields the best PEHE on CoraFull and DBLP (up to 20\% reduction). On PubMed, variance weighting alone achieves a 29\% reduction, suggesting that when heteroscedasticity dominates confounding, noise suppression is the primary driver. TARNet shows complementarity on DBLP ($6.78 \to 5.56$, $-18\%$), though on CoraFull variance weighting alone edges ahead. TARNet's simpler architecture has less capacity to jointly exploit both signals, so the combination helps most where both confounding and noise are strong (DBLP). The optimal configuration is model- and dataset-dependent, but the combination is competitive or best in 3 of 6 settings and is robust across the board. On real-world tabular benchmarks, variance weighting yields a 4$\times$ Qini improvement on continuous outcomes (Hillstrom spend; full results in supplementary).
 
 %% ====================================================================
 \section{Conclusion}\label{sec:conclusion}
