@@ -65,6 +65,18 @@ Across four representative base models and five graph datasets, GPE reduces PEHE
 
 
 %% ====================================================================
+\section{Related Work}\label{sec:related}
+%% ====================================================================
+
+\textbf{Causal inference under network interference.}
+Guo et al.~\cite{guo2020learning} pioneered GCN-based network deconfounding with Wasserstein balancing. Subsequent work---GIAL~\cite{chu2021graph} (adversarial balancing), GNUM~\cite{zhu2023gnum} (transformed-target estimation), GDC~\cite{hu2025gdc} (feature disentanglement), and CauGramer~\cite{wu2025caugramer} (ICLR~2025, causal graph Transformer)---each introduces a monolithic design whose innovations do not compose across models.
+
+\textbf{Positional encoding in GNNs.}
+Standard message-passing GNNs cannot distinguish structurally equivalent nodes in different global positions~\cite{velickovic2017graph}. Graph transformers address this: Graphormer~\cite{ying2021graphormer} encodes centrality and spatial distance; GraphGPS~\cite{rampasek2022graphgps} combines PE with local message-passing and global attention. Our GPE differs in two ways: it is a lightweight plug-in prepended to \emph{existing} backbones rather than an architecture replacement, and it targets the causal ITE setting where positional context must condition representations \emph{differentially} for treatment and control groups.
+
+\textbf{Positioning.} We contribute two modular enhancements validated across existing architectures. The plug-and-play paradigm has proven valuable in recommendation~\cite{zheng2025lighterx}; to our knowledge, this is the first controlled plug-in evaluation in graph-based ITE estimation.
+
+%% ====================================================================
 \section{Problem Setup}\label{sec:prelim}
 %% ====================================================================
 
@@ -84,7 +96,7 @@ We present two plug-in modules---one at the input level, one at the loss level--
 
 \subsection{Graph Positional Encoding (GPE)}\label{sec:gpe}
 
-GPE fuses raw node features $h \in \mathbb{R}^{n \times d_h}$ with pre-computed node2vec~\cite{grover2016node2vec} embeddings $p \in \mathbb{R}^{n \times d_p}$ via multi-head cross-attention:
+Standard GNNs aggregate local neighborhoods but lack explicit awareness of a node's global position---two nodes with isomorphic local structures may belong to different communities with distinct treatment response patterns. GPE addresses this by fusing raw features $h \in \mathbb{R}^{n \times d_h}$ with pre-computed node2vec~\cite{grover2016node2vec} embeddings $p \in \mathbb{R}^{n \times d_p}$ via multi-head cross-attention:
 \begin{align}
     Q &= hW_Q,\; K = pW_K,\; V = pW_V, \label{eq:qkv} \\
     \mathrm{head}_k &= \mathrm{softmax}\!\left(Q_k K_k^\top / \sqrt{d_k}\right) V_k, \label{eq:head}\\
@@ -99,6 +111,13 @@ We model $D_i = \tau(X_i) + \varepsilon_i$ with $\mathrm{Var}[\varepsilon_i \mid
     w_i = \frac{1}{\max\{\hat{\sigma}^2(X_i), \delta\}}, \quad \delta > 0,
 \end{equation}
 and the ITE loss becomes $\sum_{i} w_i (D_i - \hat{\tau}(X_i))^2$. For binary outcomes, $\sigma^2_t = \mu_t(1-\mu_t)$ is known analytically, requiring no learned head. The full training procedure is available in our code repository.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=\linewidth]{images/Uplift.png}
+    \caption{Framework overview. GPE fuses positional embeddings with node features at the \emph{input} level (left of dashed line); variance weighting adjusts the ITE loss at the \emph{loss} level. Neither module modifies the base model's internal architecture.}
+    \label{fig:arch}
+\end{figure}
 
 %% ====================================================================
 \section{Experiments}\label{sec:exp}
@@ -132,7 +151,11 @@ Flickr & 7,575 & 12K & 12,047 \\
 
 \subsection{GPE as a Modular Plug-in}
 
-Table~\ref{tab:main} reports rooted PEHE across three noise levels. GPE consistently reduces PEHE for all separate-head architectures (TARNet, X-learner, GDC) but not for BNN---the sole S-learner, whose shared $\mu(X,T)$ head cannot condition on position differently for treatment and control groups. Across all non-BNN settings in the full seven-model evaluation, GPE improves PEHE in 87\% of cells (Wilcoxon signed-rank $p < 10^{-5}$). TARNet benefits most: lacking built-in structural mechanisms, it has the most headroom for positional debiasing. GDC still gains substantially (DBLP $\rho{=}5$: $3.20 \to 2.76$, $-14\%$), indicating GPE captures context orthogonal to GDC's disentanglement. On the independently-generated BlogCatalog/Flickr benchmarks, GPE-enhanced TARNet also improves, ruling out DGP circularity.
+Table~\ref{tab:main} reports rooted PEHE across three noise levels. GPE consistently reduces PEHE for all separate-head architectures (TARNet, X-learner, GDC) but not for BNN. Across all non-BNN settings in the full seven-model evaluation, GPE improves PEHE in 87\% of cells (Wilcoxon signed-rank $p < 10^{-5}$). TARNet benefits most: lacking built-in structural mechanisms, it has the most headroom for positional debiasing. GDC still gains substantially (DBLP $\rho{=}5$: $3.20 \to 2.76$, $-14\%$), indicating GPE captures context orthogonal to GDC's disentanglement.
+
+\textbf{Why does BNN not benefit?} BNN is an S-learner: a single model $\mu(X,T)$ concatenates the treatment indicator with node features. When GPE augments $X$, the positional signal enters the \emph{same} representation as $T$, giving the model no mechanism to condition on position differently for treated and control predictions. T-learner variants maintain separate heads for $\mu_0$ and $\mu_1$, so each head independently learns how community membership modulates the treatment-specific response. The practical implication: GPE should be paired with separate-head architectures.
+
+\textbf{Cross-DGP consistency.} On the independently-generated WSDM benchmarks (BlogCatalog, Flickr~\cite{guo2020learning}), TARNet+GPE improves from 9.04 to 8.05 on BlogCatalog and from 11.75 to 11.40 on Flickr. The WSDM DGP contains no explicit community bias, Louvain detection, or intra-community edge boosting, yet GPE still improves the majority of models---ruling out DGP circularity as the primary explanation for our results.
 
 \begin{table*}[t]
 \caption{Rooted PEHE ($\downarrow$) with and without GPE. Mean$^{\pm\text{std}}$ over 5 seeds. \textbf{Bold} = +GPE improves. $^\star$GDC is the current SOTA~\cite{hu2025gdc}.}
@@ -192,7 +215,9 @@ For GDC, GPE alone \emph{hurts} on CoraFull ($4.64 \to 5.14$) because the positi
 \section{Conclusion}\label{sec:conclusion}
 %% ====================================================================
 
-We identified network position as a dual error root in graph-based uplift modeling---simultaneously driving confounding bias and heteroscedastic variance---and proposed two plug-in corrections: GPE (input-level proxy confounder adjustment) and variance-weighted learning (loss-level noise suppression). Both modules compose with any existing GNN-based ITE estimator without architectural modification. GPE reduces PEHE in 87\% of separate-head settings; at high noise, the combination reduces GDC's error by up to 29\%. For practitioners, GPE is most effective on graphs with community structure and T-learner architectures; variance weighting adds the most value on continuous outcomes with heterogeneous noise.
+We identified network position as a dual error root in graph-based uplift modeling---simultaneously driving confounding bias and heteroscedastic variance---and proposed two plug-in corrections: GPE (input-level proxy confounder adjustment) and variance-weighted learning (loss-level noise suppression). Both modules compose with any existing GNN-based ITE estimator without architectural modification. GPE reduces PEHE in 87\% of separate-head settings; at high noise, the combination reduces GDC's error by up to 29\%.
+
+For deployment, GPE is a pure preprocessing step---it can be bolted onto any T-learner in production \emph{without} retraining the backbone, which is a significant advantage over full architectural overhauls. Variance weighting earns its keep on continuous outcomes with genuine noise heterogeneity (revenue, dwell time, spend); for binary outcomes, the analytical Bernoulli adaptation ($\sigma^2 = \mu(1-\mu)$) primarily stabilizes training rather than shifting mean performance.
 
 \textbf{Limitations.} GPE is validated primarily on semi-synthetic graph outcomes; deployment-scale A/B testing would strengthen the practical case. Node2vec embeddings assume a static topology, limiting applicability to dynamic networks without periodic recomputation. Extended ablation studies (PE method variants, graph transformer comparison, design choices) are available in the supplementary materials.
 
