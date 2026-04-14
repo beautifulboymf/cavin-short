@@ -1,24 +1,3 @@
-% ============================================================
-% Core references for the CAVIN / GPE+Var plug-in paper
-% ============================================================
-
-% --- References requested by ICML reviewers ---
-@inproceedings{ma2021causal,
-  title={Causal Inference under Networked Interference and Intervention Policy Enhancement},
-  author={Ma, Yunpu and Tresp, Volker},
-  booktitle={International Conference on Artificial Intelligence and Statistics},
-  pages={3700--3708},
-  year={2021}
-}
-
-@inproceedings{zhao2024learning,
-  title={Learning Individual Treatment Effects under Heterogeneous Interference in Networks},
-  author={Zhao, Xiaofeng and others},
-  journal={ACM Transactions on Knowledge Discovery from Data},
-  year={2024}
-}
-
-% --- Our foundational reference ---
 @inproceedings{guo2020learning,
   title={Learning Individual Causal Effects from Networked Observational Data},
   author={Guo, Ruocheng and Li, Jundong and Liu, Huan},
@@ -28,6 +7,7 @@
 }
 
 % --- SOTA graph ITE baselines ---
+
 @inproceedings{chu2021graph,
   title={Graph Infomax Adversarial Learning for Treatment Effect Estimation with Networked Observational Data},
   author={Chu, Zhixuan and Rathbun, Stephen L. and Li, Sheng},
@@ -50,24 +30,6 @@
   year={2025}
 }
 
-@inproceedings{sui2024invariant,
-  title={Invariant Graph Learning for Causal Effect Estimation},
-  author={Sui, Yongduo and Tang, Jiancan and others},
-  booktitle={Proceedings of the ACM Web Conference 2024},
-  year={2024}
-}
-
-@article{huang2023modeling,
-  title={Modeling Interference for Individual Treatment Effect Estimation from Networked Observational Data},
-  author={Huang, Qiang and Ma, Jing and Li, Jundong and Guo, Ruocheng and Sun, Huiyan and Chang, Yi},
-  journal={ACM Transactions on Knowledge Discovery from Data},
-  volume={18},
-  number={3},
-  pages={1--21},
-  year={2023}
-}
-
-% --- Meta-learners ---
 @article{kunzel2019metalearners,
   title={Metalearners for estimating heterogeneous treatment effects using machine learning},
   author={K{\"u}nzel, S{\"o}ren R and Sekhon, Jasjeet S and Bickel, Peter J and Yu, Bin},
@@ -78,17 +40,6 @@
   year={2019}
 }
 
-@article{kennedy2023towards,
-  title={Towards optimal doubly robust estimation of heterogeneous causal effects},
-  author={Kennedy, Edward H},
-  journal={Electronic Journal of Statistics},
-  volume={17},
-  number={2},
-  pages={3008--3049},
-  year={2023}
-}
-
-% --- Deep ITE methods ---
 @inproceedings{johansson2016learning,
   title={Learning representations for counterfactual inference},
   author={Johansson, Fredrik and Shalit, Uri and Sontag, David},
@@ -105,39 +56,6 @@
   year={2017}
 }
 
-@inproceedings{chen2024doubly,
-  title={Doubly Robust Causal Effect Estimation under Networked Interference via Targeted Learning},
-  author={Chen, Wei and Cai, Ruichu and Yang, Zhifeng and Qiao, Jie and Yan, Yuequn and Li, Zijian and Hao, Zhifeng},
-  journal={arXiv preprint arXiv:2405.03342},
-  year={2024}
-}
-
-@inproceedings{liu2023explicit,
-  title={Explicit Feature Interaction-Aware Uplift Network for Online Marketing},
-  author={Liu, Dugang and Tang, Xing and Gao, Han and Lyu, Fuyuan and He, Xiuqiang},
-  booktitle={Proceedings of the 29th ACM SIGKDD Conference},
-  pages={4507--4515},
-  year={2023}
-}
-
-@inproceedings{curth2021nonparametric,
-  title={Nonparametric estimation of heterogeneous treatment effects: From theory to learning algorithms},
-  author={Curth, Alicia and Van der Schaar, Mihaela},
-  booktitle={International Conference on Artificial Intelligence and Statistics},
-  pages={1810--1818},
-  year={2021}
-}
-
-% --- GNN foundations ---
-@article{velickovic2017graph,
-  title={Graph attention networks},
-  author={Velickovic, Petar and Cucurull, Guillem and Casanova, Arantxa and Romero, Adriana and Lio, Pietro and Bengio, Yoshua},
-  journal={stat},
-  volume={1050},
-  pages={20},
-  year={2017}
-}
-
 @inproceedings{grover2016node2vec,
   title={node2vec: Scalable feature learning for networks},
   author={Grover, Aditya and Leskovec, Jure},
@@ -147,36 +65,7 @@
 }
 
 % --- Heteroscedasticity ---
-@article{abrevaya2023estimation,
-  title={Estimation of treatment effects under endogenous heteroskedasticity},
-  author={Abrevaya, Jason and Xu, Haiqing},
-  journal={Journal of Econometrics},
-  volume={234},
-  number={2},
-  pages={451--478},
-  year={2023}
-}
 
-@article{mo2022efficient,
-  title={Efficient learning of optimal individualized treatment rules for heteroscedastic or misspecified treatment-free effect models},
-  author={Mo, Weibin and Liu, Yufeng},
-  journal={Journal of the Royal Statistical Society Series B},
-  volume={84},
-  number={2},
-  pages={440--472},
-  year={2022}
-}
-
-@article{SHI2024111679,
-  title={Estimating conditional average treatment effects with heteroscedasticity by model averaging and matching},
-  author={Shi, Peng and Zhang, Xinyu and Zhong, Wei},
-  journal={Economics Letters},
-  volume={238},
-  pages={111679},
-  year={2024}
-}
-
-% --- Gauss-Markov ---
 @article{Aitken_1936,
   title={On least squares and linear combination of observations},
   author={Aitken, Alexander C},
@@ -187,46 +76,7 @@
 }
 
 % --- Network interference ---
-@article{forastiere2021identification,
-  title={Identification and estimation of treatment and interference effects in observational studies on networks},
-  author={Forastiere, Laura and Airoldi, Edoardo M and Mealli, Fabrizia},
-  journal={Journal of the American Statistical Association},
-  volume={116},
-  number={534},
-  pages={901--918},
-  year={2021}
-}
 
-@inproceedings{hudgens2008toward,
-  title={Toward causal inference with interference},
-  author={Hudgens, Michael G and Halloran, M Elizabeth},
-  journal={Journal of the American Statistical Association},
-  volume={103},
-  number={482},
-  pages={832--842},
-  year={2008}
-}
-
-@inproceedings{ugander2013graph,
-  title={Graph cluster randomization: Network exposure to multiple universes},
-  author={Ugander, Johan and Karrer, Brian and Backstrom, Lars and Kleinberg, Jon},
-  booktitle={Proceedings of the 19th ACM SIGKDD},
-  pages={329--337},
-  year={2013}
-}
-
-% --- Community detection ---
-@article{blondel2008fast,
-  title={Fast unfolding of communities in large networks},
-  author={Blondel, Vincent D and Guillaume, Jean-Loup and Lambiotte, Renaud and Lefebvre, Etienne},
-  journal={Journal of Statistical Mechanics: Theory and Experiment},
-  volume={2008},
-  number={10},
-  pages={P10008},
-  year={2008}
-}
-
-% --- Datasets ---
 @inproceedings{bojchevski2018deep,
   title={Deep Gaussian embedding of graphs: Unsupervised inductive learning via ranking},
   author={Bojchevski, Aleksandar and G{\"u}nnemann, Stephan},
@@ -235,104 +85,6 @@
 }
 
 % --- Other ---
-@inproceedings{ma2022learning,
-  title={Learning Causal Effects on Hypergraphs},
-  author={Ma, Jing and Wan, Mengting and Yang, Longqi and Li, Jundong and Hecht, Brent and Teevan, Jaime},
-  booktitle={Proceedings of the 28th ACM SIGKDD},
-  pages={1202--1212},
-  year={2022}
-}
-
-@inproceedings{cai2023generalization,
-  title={Generalization Bound for Estimating Causal Effects from Observational Network Data},
-  author={Cai, Ruichu and Yang, Zhifeng and Chen, Wei and Yan, Yuequn and Hao, Zhifeng},
-  booktitle={Proceedings of the 32nd ACM International Conference on Information and Knowledge Management},
-  pages={163--172},
-  year={2023}
-}
-
-@article{sirazitdinov2024graph,
-  title={Graph Neural Networks for Individual Treatment Effect Estimation},
-  author={Sirazitdinov, A and Buchwald, M and Heuveline, V and Hesser, J},
-  journal={IEEE Access},
-  volume={12},
-  pages={106884--106894},
-  year={2024}
-}
-
-@inproceedings{athey2016recursive,
-  title={Recursive partitioning for heterogeneous causal effects},
-  author={Athey, Susan and Imbens, Guido},
-  journal={Proceedings of the National Academy of Sciences},
-  volume={113},
-  number={27},
-  pages={7353--7360},
-  year={2016}
-}
-
-@inproceedings{goldenberg2020free,
-  title={Free Lunch! Retrospective Uplift Modeling for Dynamic Promotions Recommendation within ROI Constraints},
-  author={Goldenberg, Dmitri and Albert, Javier and Bernardi, Lucas and Estevez, Pablo},
-  booktitle={Proceedings of the 14th ACM Conference on Recommender Systems},
-  pages={486--491},
-  year={2020}
-}
-
-@article{parshakov2020spillover,
-  title={Spillover effect in promotion: Evidence from video game publishers and esports tournaments},
-  author={Parshakov, Petr and Naidenova, Iuliia and Barajas, Angel},
-  journal={Journal of Business Research},
-  volume={118},
-  pages={262--270},
-  year={2020}
-}
-
-@article{aral2011creating,
-  title={Creating social contagion through viral product design: A randomized trial of peer influence in networks},
-  author={Aral, Sinan and Walker, Dylan},
-  journal={Management Science},
-  volume={57},
-  number={9},
-  pages={1623--1639},
-  year={2011}
-}
-
-@article{zivich2021machine,
-  title={Machine learning for causal inference: on the use of cross-fit estimators},
-  author={Zivich, Paul N and Breskin, Alexander},
-  journal={Epidemiology},
-  volume={32},
-  number={3},
-  pages={393--401},
-  year={2021}
-}
-
-@inproceedings{papadogeorgou2022causal,
-  title={Causal inference with spatio-temporal data},
-  author={Papadogeorgou, Georgia and Imai, Kosuke and Lyall, Jason and Li, Fan},
-  journal={Journal of the Royal Statistical Society Series B},
-  volume={84},
-  number={5},
-  pages={1969--1999},
-  year={2022}
-}
-
-@inproceedings{louizos2017causal,
-  title={Causal effect inference with deep latent-variable models},
-  author={Louizos, Christos and Shalit, Uri and Mooij, Joris M and Sontag, David and Zemel, Richard and Welling, Max},
-  booktitle={Advances in Neural Information Processing Systems},
-  volume={30},
-  year={2017}
-}
-
-@inproceedings{schwab2020learning,
-  title={Learning Counterfactual Representations for Estimating Individual Dose-Response Curves},
-  author={Schwab, Patrick and Linhardt, Lorenz and Bauer, Stefan and Buhmann, Joachim M and Karlen, Walter},
-  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
-  volume={34},
-  pages={5612--5619},
-  year={2020}
-}
 
 @article{luo2021behavioural,
   title={Behavioural intention of receiving COVID-19 vaccination},
@@ -341,153 +93,6 @@
   volume={149},
   pages={e158},
   year={2021}
-}
-
-@article{DEVALCK2009185,
-  title={Virtual communities: A marketing perspective},
-  author={de Valck, Kristine and van Bruggen, Gerrit H and Wierenga, Berend},
-  journal={Decision Support Systems},
-  volume={47},
-  number={3},
-  pages={185--203},
-  year={2009}
-}
-
-@article{10.1214/19-AOAS1314,
-  title={Causal inference from observational studies with clustered interference},
-  author={Barkley, Brian G and Hudgens, Michael G and Clemens, John D and Ali, Mohammad and Emch, Michael E},
-  journal={The Annals of Applied Statistics},
-  volume={14},
-  number={3},
-  pages={1432--1448},
-  year={2020}
-}
-
-@inproceedings{10621010,
-  title={Graph Neural Networks for Individual Treatment Effect Estimation},
-  author={Sirazitdinov, A and others},
-  journal={IEEE Access},
-  volume={12},
-  pages={106884--106894},
-  year={2024}
-}
-
-@inproceedings{pmlr-v48-johansson16,
-  title={Learning Representations for Counterfactual Inference},
-  author={Johansson, Fredrik and Shalit, Uri and Sontag, David},
-  booktitle={ICML},
-  pages={3020--3029},
-  year={2016}
-}
-
-@inproceedings{radcliffe2011real,
-  title={Real-world uplift modelling with significance-based uplift trees},
-  author={Radcliffe, Nicholas J and Surry, Patrick D},
-  year={2011}
-}
-
-@article{mcculloch2018bart,
-  title={BART: Bayesian additive regression trees},
-  author={McCulloch, Robert and Sparapani, Rodney and Gramacy, Robert and Spanbauer, Charles and Pratola, Matthew},
-  year={2018}
-}
-
-@inproceedings{10.1145/3511808.3557100,
-  title={E-commerce Promotions Personalization via Online Multiple-Choice Knapsack with Uplift Modeling},
-  author={Albert, Javier and Goldenberg, Dmitri},
-  booktitle={Proceedings of the 31st ACM International Conference on Information \& Knowledge Management},
-  pages={2863--2872},
-  year={2022}
-}
-
-@inproceedings{kazemi2024adversarially,
-  title={Adversarially Balanced Representation for Continuous Treatment Effect Estimation},
-  author={Kazemi, Arash and Ester, Martin},
-  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
-  volume={38},
-  pages={13085--13093},
-  year={2024}
-}
-
-@inproceedings{kendall2018multi,
-  title={Multi-task learning using uncertainty to weigh losses for scene geometry and semantics},
-  author={Kendall, Alex and Gal, Yarin and Cipolla, Roberto},
-  booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
-  pages={7482--7491},
-  year={2018}
-}
-
-% ============================================================
-% New references added for RecSys 2025 revision
-% ============================================================
-
-% --- Uplift modeling ---
-@inproceedings{sun2024e3ir,
-  title={End-to-End Cost-Effective Incentive Recommendation under Budget Constraint with Uplift Modeling},
-  author={Sun, Zexu and Yang, Hao and Liu, Dugang and Weng, Yunpeng and Tang, Xing and He, Xiuqiang},
-  booktitle={Proceedings of the 18th ACM Conference on Recommender Systems},
-  pages={370--380},
-  year={2024}
-}
-
-@inproceedings{meng2025cdum,
-  title={Enhancing Online Video Recommendation via a Coarse-to-fine Dynamic Uplift Modeling Framework},
-  author={Meng, Chang and Zhai, Chenhao and Wang, Xueliang and Liu, Shuchang and Feng, Xiaoqiang and Hu, Lantao and Li, Xiu and Li, Han and Gai, Kun},
-  booktitle={Proceedings of the 19th ACM Conference on Recommender Systems},
-  year={2025}
-}
-
-% --- Graph Transformer / Positional Encoding ---
-@inproceedings{ying2021graphormer,
-  title={Do Transformers Really Perform Badly for Graph Representation?},
-  author={Ying, Chengxuan and Cai, Tianle and Luo, Shengjie and Zheng, Shuxin and Ke, Guolin and He, Di and Shen, Yanming and Liu, Tie-Yan},
-  booktitle={Advances in Neural Information Processing Systems},
-  volume={34},
-  pages={28877--28888},
-  year={2021}
-}
-
-@inproceedings{rampasek2022graphgps,
-  title={Recipe for a General, Powerful, Scalable Graph Transformer},
-  author={Ramp{\'a}{\v{s}}ek, Ladislav and Galkin, Mikhail and Dwivedi, Vijay Prakash and Luu, Anh Tuan and Wolf, Guy and Beaini, Dominique},
-  booktitle={Advances in Neural Information Processing Systems},
-  volume={35},
-  pages={14501--14515},
-  year={2022}
-}
-
-@inproceedings{kreuzer2021san,
-  title={Rethinking Graph Transformers with Spectral Attention},
-  author={Kreuzer, Devin and Beaini, Dominique and Hamilton, William L. and L{\'e}tourneau, Vincent and Tossou, Prudencio},
-  booktitle={Advances in Neural Information Processing Systems},
-  volume={34},
-  pages={21618--21629},
-  year={2021}
-}
-
-@inproceedings{lim2023signnet,
-  title={Sign and Basis Invariant Networks for Spectral Graph Representation Learning},
-  author={Lim, Derek and Robinson, Joshua and Zhao, Lingxiao and Smidt, Tess and Sra, Suvrit and Maron, Haggai and Jegelka, Stefanie},
-  booktitle={International Conference on Learning Representations},
-  year={2023}
-}
-
-@article{chen2025pgtr,
-  title={Position-aware Graph Transformer for Recommendation},
-  author={Chen, Jiajia and Wu, Jiancan and Chen, Jiawei and Gao, Chongming and Li, Yong and Wang, Xiang},
-  journal={ACM Transactions on Information Systems},
-  volume={43},
-  number={4},
-  pages={1--27},
-  year={2025}
-}
-
-% --- Causal inference ---
-@inproceedings{wu2025caugramer,
-  title={Causal Graph Transformer for Treatment Effect Estimation Under Unknown Interference},
-  author={Wu, Anpeng and others},
-  booktitle={International Conference on Learning Representations},
-  year={2025}
 }
 
 @article{nie2021rlearner,
@@ -501,19 +106,7 @@
 }
 
 % --- Plug-and-play / Modular ---
-@article{zheng2025lighterx,
-  title={Lighter-X: An Efficient and Plug-and-play Strategy for Graph-based Recommendation through Decoupled Propagation},
-  author={Zheng, Yanping and others},
-  journal={Proceedings of the VLDB Endowment},
-  volume={18},
-  number={6},
-  pages={1451--1464},
-  year={2025}
-}
 
-% Note: SPNet (huang2024spnet) is the same paper as huang2023modeling above; using existing key.
-
-% --- Proxy confounders in networks ---
 @inproceedings{veitch2019using,
   title={Using Embeddings to Correct for Unobserved Confounding in Networks},
   author={Veitch, Victor and Wang, Yixin and Blei, David M},
