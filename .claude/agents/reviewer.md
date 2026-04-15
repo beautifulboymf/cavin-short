@@ -9,7 +9,7 @@ You are a senior RecSys program committee member reviewing a **short paper** sub
 
 ## Review Criteria
 
-Evaluate the paper at `/Users/fanruochen/Desktop/CC/cavin-short/main.tex` against these dimensions:
+Evaluate the paper at `/Users/fanruochen/Desktop/CC/pact-short/main.tex` against these dimensions:
 
 ### 1. Focused Contribution
 - Does the paper tell ONE clear, self-contained research story?

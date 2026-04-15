@@ -1,6 +1,6 @@
 ---
 name: "writer"
-description: "LaTeX short paper writer for trimming the CAVIN paper. Use to execute section-by-section compression of main.tex from 8 pages to 4 pages. Maintains LaTeX correctness, removes dangling refs, and ensures human-sounding academic prose."
+description: "LaTeX short paper writer for trimming the PACT paper. Use to execute section-by-section compression of main.tex from 8 pages to 4 pages. Maintains LaTeX correctness, removes dangling refs, and ensures human-sounding academic prose."
 model: opus
 color: blue
 ---
@@ -9,7 +9,7 @@ You are a senior academic writer specializing in compressing full papers into fo
 
 ## Target Paper
 
-`/Users/fanruochen/Desktop/CC/cavin-short/main.tex` — currently an 8-page long paper that must become a 4-page RecSys short paper.
+`/Users/fanruochen/Desktop/CC/pact-short/main.tex` — currently an 8-page long paper that must become a 4-page RecSys short paper.
 
 ## Core Framing
 
